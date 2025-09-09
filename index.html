@@ -2,93 +2,103 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geared Coaching Vetpercentage Calculator</title>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; }
-        .input-group { margin-bottom: 10px; }
-        label { display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { padding: 10px 15px; cursor: pointer; }
-        #resultaat { margin-top: 20px; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-    <h2>Vetpercentage Calculator</h2>
-    <p>Gebaseerd op de Jackson/Pollock 3-punts methode.</p>
-
-    <div class="input-group">
-        <label for="geslacht">Geslacht</label>
-        <select id="geslacht" onchange="updateMeetpunten()">
-            <option value="man">Man</option>
-            <option value="vrouw">Vrouw</option>
-        </select>
-    </div>
-
-    <div class="input-group">
-        <label for="leeftijd">Leeftijd (in jaren)</label>
-        <input type="number" id="leeftijd" placeholder="bv. 30">
-    </div>
-
-    <p id="meetpunten-info"><b>Meetpunten voor mannen:</b> Borst, Buik, Dijbeen (in mm)</p>
-
-    <div class="input-group">
-        <label for="meting1">Meting 1 (mm)</label>
-        <input type="number" id="meting1">
-    </div>
-    <div class="input-group">
-        <label for="meting2">Meting 2 (mm)</label>
-        <input type="number" id="meting2">
-    </div>
-    <div class="input-group">
-        <label for="meting3">Meting 3 (mm)</label>
-        <input type="number" id="meting3">
-    </div>
-
-    <button onclick="bereken()">Bereken Vetpercentage</button>
-
-    <div id="resultaat"></div>
-
-    <script>
-        function updateMeetpunten() {
-            const geslacht = document.getElementById('geslacht').value;
-            const infoElement = document.getElementById('meetpunten-info');
-            if (geslacht === 'man') {
-                infoElement.innerHTML = "<b>Meetpunten voor mannen:</b> Borst, Buik, Dijbeen (in mm)";
-            } else {
-                infoElement.innerHTML = "<b>Meetpunten voor vrouwen:</b> Triceps, Supra-iliacaal, Dijbeen (in mm)";
-            }
+        /* --- Geared Coaching Brand Styles --- */
+        :root {
+            --bg-color: #121212; /* Dark background */
+            --surface-color: #1e1e1e; /* Slightly lighter surface for the card */
+            --primary-text-color: #e0e0e0; /* Off-white for readability */
+            --secondary-text-color: #a0a0a0; /* Grey for supporting text */
+            --border-color: #444; /* Border for inputs */
+            --accent-color: #ffffff; /* White for button/highlights */
         }
 
-        function bereken() {
-            const geslacht = document.getElementById('geslacht').value;
-            const leeftijd = parseInt(document.getElementById('leeftijd').value);
-            const meting1 = parseFloat(document.getElementById('meting1').value);
-            const meting2 = parseFloat(document.getElementById('meting2').value);
-            const meting3 = parseFloat(document.getElementById('meting3').value);
-
-            if (isNaN(leeftijd) || isNaN(meting1) || isNaN(meting2) || isNaN(meting3)) {
-                document.getElementById('resultaat').innerText = "Fout: Vul alle velden correct in.";
-                return;
-            }
-
-            const som_huidplooien = meting1 + meting2 + meting3;
-            let body_density = 0;
-
-            if (geslacht === 'man') {
-                body_density = 1.10938 - (0.0008267 * som_huidplooien) + (0.0000016 * (som_huidplooien**2)) - (0.0002574 * leeftijd);
-            } else { // vrouw
-                body_density = 1.0994921 - (0.0009929 * som_huidplooien) + (0.0000023 * (som_huidplooien**2)) - (0.0001392 * leeftijd);
-            }
-
-            if (body_density > 0) {
-                const vetpercentage = (495 / body_density) - 450;
-                document.getElementById('resultaat').innerText = `Geschat vetpercentage: ${vetpercentage.toFixed(2)}%`;
-            } else {
-                document.getElementById('resultaat').innerText = "Fout: Ongeldige metingen. Controleer de ingevoerde waarden.";
-            }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-    </script>
 
-</body>
-</html>
+        .calculator-container {
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-container img {
+            max-width: 150px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        p {
+            text-align: center;
+            color: var(--secondary-text-color);
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--primary-text-color);
+            font-size: 1rem;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            cursor: pointer;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top:
