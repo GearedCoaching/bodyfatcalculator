@@ -7,12 +7,12 @@
     <style>
         /* --- Geared Coaching Brand Styles --- */
         :root {
-            --bg-color: #121212; /* Dark background */
-            --surface-color: #1e1e1e; /* Slightly lighter surface for the card */
-            --primary-text-color: #e0e0e0; /* Off-white for readability */
-            --secondary-text-color: #a0a0a0; /* Grey for supporting text */
-            --border-color: #444; /* Border for inputs */
-            --accent-color: #ffffff; /* White for button/highlights */
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-text-color: #e0e0e0;
+            --secondary-text-color: #a0a0a0;
+            --border-color: #444;
+            --accent-color: #ffffff;
         }
 
         body {
@@ -20,11 +20,8 @@
             background-color: var(--bg-color);
             color: var(--primary-text-color);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            /* UPDATED: Replaced flexbox centering with simple padding */
+            padding: 40px 20px; 
         }
 
         .calculator-container {
@@ -36,6 +33,8 @@
             max-width: 500px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             box-sizing: border-box;
+            /* Added margin: auto to center the container horizontally */
+            margin: auto;
         }
         
         h2 {
@@ -118,7 +117,6 @@
             margin-bottom: 20px;
         }
 
-        /* Styles for the images */
         .measurement-images {
             display: flex;
             justify-content: space-around;
@@ -131,7 +129,7 @@
         }
 
         .measurement-images img {
-            max-width: 300px;
+            max-width: 100px;
             height: auto;
             border: 1px solid var(--border-color);
             border-radius: 4px;
@@ -192,7 +190,7 @@
             const geslacht = document.getElementById('geslacht').value;
             const infoElement = document.getElementById('meetpunten-info');
             const imagesContainer = document.getElementById('measurementImages');
-            imagesContainer.innerHTML = ''; // Clear existing images
+            imagesContainer.innerHTML = ''; 
 
             if (geslacht === 'man') {
                 infoElement.innerHTML = "<b>Meetpunten voor mannen:</b> Borst, Buik, Dijbeen.";
@@ -200,17 +198,15 @@
                 document.getElementById('labelMeting2').innerText = "Buik (mm)";
                 document.getElementById('labelMeting3').innerText = "Dijbeen (mm)";
                 
-                // Images for men (assuming they are in the same folder)
                 imagesContainer.innerHTML += '<img src="man_borst.png" alt="Borst meting">';
                 imagesContainer.innerHTML += '<img src="man_buik.png" alt="Buik meting">';
                 imagesContainer.innerHTML += '<img src="dijbeen.png" alt="Dijbeen meting">';
-            } else { // Vrouw
+            } else { 
                 infoElement.innerHTML = "<b>Meetpunten voor vrouwen:</b> Triceps, Supra-iliacaal, Dijbeen.";
                 document.getElementById('labelMeting1').innerText = "Triceps (mm)";
                 document.getElementById('labelMeting2').innerText = "Supra-iliacaal (mm)";
                 document.getElementById('labelMeting3').innerText = "Dijbeen (mm)";
 
-                // Images for women (assuming they are in the same folder)
                 imagesContainer.innerHTML += '<img src="vrouw_triceps.png" alt="Triceps meting">';
                 imagesContainer.innerHTML += '<img src="vrouw_supra_iliacaal.png" alt="Supra-iliacaal meting">';
                 imagesContainer.innerHTML += '<img src="dijbeen.png" alt="Dijbeen meting">';
@@ -235,7 +231,7 @@
 
             if (geslacht === 'man') {
                 body_density = 1.10938 - (0.0008267 * som_huidplooien) + (0.0000016 * (som_huidplooien**2)) - (0.0002574 * leeftijd);
-            } else { // vrouw
+            } else { 
                 body_density = 1.0994921 - (0.0009929 * som_huidplooien) + (0.0000023 * (som_huidplooien**2)) - (0.0001392 * leeftijd);
             }
 
@@ -247,7 +243,6 @@
             }
         }
         
-        // Initial call to set the correct info text and images on page load
         updateMeetpunten();
     </script>
 
