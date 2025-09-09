@@ -117,6 +117,32 @@
             border-radius: 4px;
             margin-bottom: 20px;
         }
+
+        /* Styles for the images */
+        .measurement-images {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap; 
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .measurement-images img {
+            max-width: 100px;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 400px) {
+            .measurement-images img {
+                max-width: 80px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -141,6 +167,8 @@
 
         <p id="meetpunten-info"></p>
 
+        <div class="measurement-images" id="measurementImages"></div>
+
         <div class="input-group">
             <label id="labelMeting1">Meting 1 (mm)</label>
             <input type="number" id="meting1">
@@ -163,17 +191,29 @@
         function updateMeetpunten() {
             const geslacht = document.getElementById('geslacht').value;
             const infoElement = document.getElementById('meetpunten-info');
-            
+            const imagesContainer = document.getElementById('measurementImages');
+            imagesContainer.innerHTML = ''; // Clear existing images
+
             if (geslacht === 'man') {
                 infoElement.innerHTML = "<b>Meetpunten voor mannen:</b> Borst, Buik, Dijbeen.";
                 document.getElementById('labelMeting1').innerText = "Borst (mm)";
                 document.getElementById('labelMeting2').innerText = "Buik (mm)";
                 document.getElementById('labelMeting3').innerText = "Dijbeen (mm)";
-            } else {
+                
+                // Images for men (assuming they are in the same folder)
+                imagesContainer.innerHTML += '<img src="man_borst.png" alt="Borst meting">';
+                imagesContainer.innerHTML += '<img src="man_buik.png" alt="Buik meting">';
+                imagesContainer.innerHTML += '<img src="dijbeen.png" alt="Dijbeen meting">';
+            } else { // Vrouw
                 infoElement.innerHTML = "<b>Meetpunten voor vrouwen:</b> Triceps, Supra-iliacaal, Dijbeen.";
                 document.getElementById('labelMeting1').innerText = "Triceps (mm)";
                 document.getElementById('labelMeting2').innerText = "Supra-iliacaal (mm)";
                 document.getElementById('labelMeting3').innerText = "Dijbeen (mm)";
+
+                // Images for women (assuming they are in the same folder)
+                imagesContainer.innerHTML += '<img src="vrouw_triceps.png" alt="Triceps meting">';
+                imagesContainer.innerHTML += '<img src="vrouw_supra_iliacaal.png" alt="Supra-iliacaal meting">';
+                imagesContainer.innerHTML += '<img src="dijbeen.png" alt="Dijbeen meting">';
             }
         }
 
@@ -185,7 +225,7 @@
             const meting3 = parseFloat(document.getElementById('meting3').value);
             const resultaatElement = document.getElementById('resultaat');
 
-            if (isNaN(leeftijd) || isNaN(meting1) || isNaN(meting2) || isNaN(meting3) || leeftijd <= 0 || meting1 <= 0 || meting2 <= 0 || meting3 <= 0) {
+            if (isNaN(leeftijd) || isNaN(meting1) || isNaN(meting2) || isNaN(meting3) || leeftijd <= 0 || meting1 < 0 || meting2 < 0 || meting3 < 0) {
                 resultaatElement.innerText = "Fout: Vul alle velden correct in.";
                 return;
             }
@@ -207,7 +247,7 @@
             }
         }
         
-        // Initial call to set the correct info text on page load
+        // Initial call to set the correct info text and images on page load
         updateMeetpunten();
     </script>
 
